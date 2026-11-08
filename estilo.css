@@ -121,6 +121,9 @@ details[open] summary { margin-bottom: 8px; }
 .plan li { margin: 6px 0; }
 .plan > p:last-child { margin-top: auto; margin-bottom: 0; }
 .nota { color: var(--tenue); font-size: .9rem; }
+/* 8-nov-2026: espejo de descargas (GitHub) cuando el servidor de descargas no responde. */
+.alerta-espejo { border: 2px solid var(--ambar); border-radius: 16px; padding: 18px 22px; margin: 18px 0; background: var(--blanco); }
+.alerta-espejo h3 { margin-top: 0; }
 .cambio-plan { max-width: 720px; margin: 28px auto 8px; font-weight: 600; }
 .centrado { text-align: center; }
 .boton.desactivado { opacity: .6; cursor: not-allowed; border-style: dashed; }

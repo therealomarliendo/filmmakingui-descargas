@@ -53,6 +53,21 @@
     videos.forEach(function (v) { obs.observe(v); });
   }
 
+  // Espejo (8-nov-2026): si el servidor de descargas (R2, en Cloudflare) no responde, se enseña el aviso con los
+  // enlaces de GitHub. Solo se comprueba si el instalador está en este mismo sitio (en el espejo no hace falta).
+  var espejo = document.getElementById("descarga-espejo");
+  function mostrarEspejo() { if (espejo) espejo.hidden = false; }
+  if (espejo && espejo.getAttribute("data-comprobar")) {
+    try {
+      var comprobar = new URL(espejo.getAttribute("data-comprobar"), location.href);
+      if (comprobar.origin === location.origin && window.fetch) {
+        var opciones = { method: "HEAD", cache: "no-store" };
+        if (window.AbortSignal && AbortSignal.timeout) opciones.signal = AbortSignal.timeout(8000);
+        fetch(comprobar.href, opciones).then(function (r) { if (!r.ok) mostrarEspejo(); }).catch(mostrarEspejo);
+      }
+    } catch (e) { /* URL rara: no se comprueba */ }
+  }
+
   var descarga = document.querySelector(".descarga[data-manifiesto]");
   if (descarga) {
     var url = descarga.getAttribute("data-manifiesto");
@@ -66,7 +81,7 @@
           document.getElementById("descarga-sha-valor").textContent = instalador.sha256;
           document.getElementById("descarga-sha").hidden = false;
         }
-      }).catch(function () { version.textContent = "—"; });
+      }).catch(function () { version.textContent = "—"; mostrarEspejo(); });
     } else {
       version.textContent = "—";
     }
