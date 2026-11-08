@@ -1,0 +1,21 @@
+{
+ "version": "1.28.26",
+ "fecha": "2026-11-06",
+ "espejo": true,
+ "archivos": {
+  "instalador": {
+   "nombre": "FilmmakingUI-1.28.26-windows-x64-setup.exe",
+   "tam": 129407746,
+   "sha256": "4a7ee2c42758e6f98357282a8590cd72100ad2c8a09a6c4408f49e126a5319ce",
+   "url": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/latest/download/FilmmakingUI-Setup.exe",
+   "url_version": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.28.26/FilmmakingUI-1.28.26-windows-x64-setup.exe"
+  },
+  "portable": {
+   "nombre": "FilmmakingUI-1.28.26-windows-x64-portable.zip",
+   "tam": 87121669,
+   "sha256": "2f35d90b16b2a059315da50c09271e5776276ac023cc5637e2316ffea187b14b",
+   "url": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/latest/download/FilmmakingUI-Portable.zip",
+   "url_version": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.28.26/FilmmakingUI-1.28.26-windows-x64-portable.zip"
+  }
+ }
+}

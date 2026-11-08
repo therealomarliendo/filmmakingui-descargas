@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex, follow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request a refund — FilmmakingUI</title>
+<meta name="description" content="Form to request a refund or withdraw from a FilmmakingUI purchase.">
+<link rel="canonical" href="https://filmmakingui.com/en/request-refund">
+<link rel="alternate" hreflang="en" href="https://filmmakingui.com/en/request-refund">
+<link rel="alternate" hreflang="es" href="https://filmmakingui.com/solicitar-reembolso">
+<link rel="alternate" hreflang="x-default" href="https://filmmakingui.com/solicitar-reembolso">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FilmmakingUI">
+<meta property="og:title" content="Request a refund — FilmmakingUI">
+<meta property="og:description" content="Form to request a refund or withdraw from a FilmmakingUI purchase.">
+<meta property="og:url" content="https://filmmakingui.com/en/request-refund">
+<meta property="og:image" content="https://filmmakingui.com/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://filmmakingui.com/img/og.png">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/icono-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body class="reembolso-pagina"><div style="background:#2a2118;color:#f6f0e4;font:14px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">Copy of filmmakingui.com hosted on GitHub, for when the main website does not load. The downloads are the same files, with the same SHA-256 fingerprint. <a style="color:#e8b04b" href="https://filmmakingui.com/">filmmakingui.com</a></div>
+<header class="barra"><a class="marca" href="../en/index.html"><img class="marca-rayo" src="../img/logo-rayo.png" alt="" width="13" height="32">FilmmakingUI</a><nav><a href="../en/index.html">Home</a><a href="../en/index.html#precios">Pricing</a><a href="../en/download.html">Download</a><a href="../en/help/index.html">Help</a><a class="idioma" href="../solicitar-reembolso.html" hreflang="es" lang="es">Español</a></nav></header>
+<main>
+<section class="reembolso">
+  <h1>Request a refund</h1>
+  <p>Fill in the form and click “Review the request”. You will see a summary to confirm before sending it. When it is sent we show you a receipt with the date and time (and, when possible, we email it to you). We reply within 14 days.</p>
+  <form class="reembolso-form" id="reembolso-form" data-endpoint="https://licencias.filmmakingui.com/v1/reembolsos/solicitar" data-idioma="en" data-ok-texto="We received your request on {fecha} (Madrid time). Request number: {id}." data-ok-correo="We have emailed you this receipt." data-ok-pantalla="Save or print this page as proof." data-error="Check the email, the order number and the reason." data-error-red="It could not be sent. Try again or use the “Contact” link at the bottom of the page." data-enviando="Sending…" data-confirmar="Confirm and send" novalidate>
+    <label for="re-correo">Purchase email</label>
+    <input type="email" id="re-correo" name="correo" autocomplete="email" maxlength="120" required>
+    <label for="re-pedido">Order number (it is on your Payhip receipt)</label>
+    <input type="text" id="re-pedido" name="pedido" maxlength="60" required>
+    <label for="re-motivo">Reason</label>
+    <select id="re-motivo" name="motivo" required><option value=""></option><option value="desistimiento">Withdrawal (14 days)</option><option value="no_funciona">The program does not work on my computer</option><option value="compra_por_error">I bought it by mistake</option><option value="otro">Other reason</option></select>
+    <label for="re-detalle">Tell us more (optional)</label>
+    <textarea id="re-detalle" name="detalle" rows="4" maxlength="1000"></textarea>
+    <input type="text" name="web" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="aviso-estado" id="reembolso-estado" role="status" aria-live="polite"></p>
+    <button class="boton boton-principal" type="submit">Review the request</button>
+  </form>
+  <div class="reembolso-confirmar" id="reembolso-confirmar" hidden>
+    <h2>Check your request</h2>
+    <dl id="reembolso-resumen"></dl>
+    <p class="botones"><button class="boton boton-principal" type="button" id="reembolso-enviar">Confirm and send</button>
+    <button class="boton" type="button" id="reembolso-volver">Edit</button></p>
+  </div>
+  <div class="reembolso-acuse" id="reembolso-acuse" hidden role="status">
+    <h2>Request received</h2>
+    <p id="reembolso-acuse-texto"></p>
+    <p id="reembolso-acuse-correo"></p>
+    <p><button class="boton" type="button" onclick="window.print()">Print the receipt</button></p>
+  </div>
+  <p class="nota"><a href="../en/legal/refunds.html">Read the refund policy</a> · <a href="../en/legal/privacy.html">We only use this data to handle your request (see Privacy).</a></p>
+</section>
+<script src="../reembolso.js"></script>
+</main>
+<footer><p><a href="../en/legal/legal-notice.html">Legal notice</a> · <a href="../en/legal/privacy.html">Privacy</a> · <a href="../en/legal/terms.html">Terms</a> · <a href="../en/legal/refunds.html">Refunds</a> · <a href="mailto:soporte@filmmakingui.com">Contact</a> · <a class="pie-reembolso" href="../en/request-refund.html">Request a refund</a></p><p>© FilmmakingUI</p></footer>
+</body>
+</html>

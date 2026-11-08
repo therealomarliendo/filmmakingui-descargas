@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta name="robots" content="noindex, follow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secuencia — FilmmakingUI</title>
+<meta name="description" content="Secuencia">
+<link rel="canonical" href="https://filmmakingui.com/ayuda/secuencia-continua">
+<link rel="alternate" hreflang="es" href="https://filmmakingui.com/ayuda/secuencia-continua">
+<link rel="alternate" hreflang="en" href="https://filmmakingui.com/en/help/continuous-sequence">
+<link rel="alternate" hreflang="x-default" href="https://filmmakingui.com/ayuda/secuencia-continua">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FilmmakingUI">
+<meta property="og:title" content="Secuencia — FilmmakingUI">
+<meta property="og:description" content="Secuencia">
+<meta property="og:url" content="https://filmmakingui.com/ayuda/secuencia-continua">
+<meta property="og:image" content="https://filmmakingui.com/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://filmmakingui.com/img/og.png">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/icono-32.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body class=""><div style="background:#2a2118;color:#f6f0e4;font:14px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">Copia de filmmakingui.com alojada en GitHub, para cuando la web principal no carga (por ejemplo, por los bloqueos de algunas operadoras durante el fútbol). Las descargas son los mismos archivos, con la misma huella SHA-256. <a style="color:#e8b04b" href="https://filmmakingui.com/">filmmakingui.com</a></div>
+<header class="barra"><a class="marca" href="../index.html"><img class="marca-rayo" src="../img/logo-rayo.png" alt="" width="13" height="32">FilmmakingUI</a><nav><a href="../index.html">Inicio</a><a href="../index.html#precios">Precios</a><a href="../descarga.html">Descargar</a><a href="../ayuda/index.html">Ayuda</a><a class="idioma" href="../en/help/continuous-sequence.html" hreflang="en" lang="en">English</a></nav></header>
+<main>
+<div class="ayuda"><nav class="indice"><ol><li><a href="index.html">Inicio rápido</a></li><li><a href="cine.html">Cine</a></li><li><a href="marketing.html">Marketing</a></li><li><a href="secuencia-continua.html">Secuencia</a></li><li><a href="externa.html">Externa</a></li><li><a href="biblioteca.html">Biblioteca: personajes, ubicaciones y props</a></li><li><a href="editar-imagen.html">Editar imagen</a></li><li><a href="editar-video.html">Transformar vídeo</a></li><li><a href="higgsfield.html">HiggsfieldUI</a></li><li><a href="ajustes.html">Ajustes</a></li><li><a href="montaje.html">Montaje</a></li><li><a href="explainer.html">Explainer</a></li><li><a href="grabador.html">Grabador</a></li><li><a href="asistente.html">Asistente</a></li></ol></nav><article><h1>Secuencia</h1>
+<p>Vídeos largos que parecen una sola toma, segmento a segmento.</p>
+<h2>Modos</h2>
+<ul><li><strong>Por fotogramas clave</strong> (recomendado): primero se genera y apruebas la imagen final de cada segmento; después cada vídeo va de su imagen de inicio a su imagen final (modelos de primer y último fotograma). Evita la deriva acumulada.</li><li><strong>Encadenado por último fotograma</strong>: cada segmento empieza en el último fotograma del anterior. «Empalme exacto» empieza justo en ese fotograma; los «modelos de referencia» lo usan como guía.</li></ul>
+<h2>Crear una secuencia</h2>
+<ol><li><strong>Fotograma inicial</strong>: súbelo, elígelo de una galería o genera uno nuevo.</li><li><strong>Modelo de vídeo</strong> y, en fotogramas clave, el <strong>modelo de imagen</strong> de los fotogramas (por defecto GPT Image 2 medium).</li><li><strong>Personajes de referencia</strong> y, con dos o más, su <strong>posición</strong> (izquierda, centro, derecha, fondo) para que no se intercambien.</li><li><strong>Prompts</strong>: una línea por segmento, con una sola acción (en inglés). Puedes pedir que la IA los proponga.</li><li>El coste se muestra en dos partes (fotogramas clave y vídeos). <strong>Crear</strong> no genera nada.</li></ol>
+<h2>Personajes por segmento</h2>
+<p>En cada segmento, «Cambiar reparto» permite que alguien <strong>entre</strong> (por la izquierda, la derecha, desde el fondo, detrás de cámara o «ya presente», con su posición final) o <strong>salga</strong>. El reparto se hereda al siguiente segmento. En el modo encadenado, solo los modelos de referencia aceptan personajes nuevos (la app avisa y sugiere uno).</p>
+<h2>Revisar y unir</h2>
+<ul><li>Aprueba cada fotograma clave o regenéralo (los siguientes quedan desfasados, nada se borra).</li><li><strong>Continuar</strong> genera el siguiente segmento; cada uno se aprueba o se regenera (las tomas anteriores se conservan).</li><li><strong>Regenerar con…</strong> prueba otro modelo solo para ese segmento.</li><li>Si se detecta un posible intercambio de personajes o un corte de cámara, la app lo marca y no aprueba sola.</li><li>Cuando todos estén aprobados, <strong>Unir</strong> crea un solo vídeo (con empalme suave opcional).</li></ul></article></div>
+</main>
+<footer><p><a href="../legal/aviso-legal.html">Aviso legal</a> · <a href="../legal/privacidad.html">Privacidad</a> · <a href="../legal/terminos.html">Términos</a> · <a href="../legal/reembolsos.html">Reembolsos</a> · <a href="mailto:soporte@filmmakingui.com">Contacto</a> · <a class="pie-reembolso" href="../solicitar-reembolso.html">Solicitar reembolso</a></p><p>© FilmmakingUI</p></footer>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{
+ "videos": [
+  {
+   "id": "v1",
+   "video": "v1.mp4",
+   "poster": "v1.jpg",
+   "es": "Motorista con chaqueta de cuero por una avenida al atardecer",
+   "en": "A rider in a leather jacket on an avenue at sunset",
+   "prompt": "a rider in a black leather jacket on a black sport motorcycle crossing a European avenue at golden hour",
+   "accion": "the motorcycle rides past the camera",
+   "ancho": 960,
+   "alto": 540,
+   "duracion": 4.09,
+   "kb": 600
+  },
+  {
+   "id": "v2",
+   "video": "v2.mp4",
+   "poster": "v2.jpg",
+   "es": "Dos artistas en un estudio naranja",
+   "en": "Two artists in an orange studio",
+   "prompt": "two men in bright orange shirts talking in front of an orange wall, a studio microphone hangs between them",
+   "accion": "they talk and gesture",
+   "ancho": 960,
+   "alto": 588,
+   "duracion": 9.03,
+   "kb": 916
+  },
+  {
+   "id": "v3",
+   "video": "v3.mp4",
+   "poster": "v3.jpg",
+   "es": "Paseo nocturno por la ciudad",
+   "en": "A night walk through the city",
+   "prompt": "low tracking shot of a man in white trousers and sneakers walking at night past a lit city bus",
+   "accion": "he walks forward",
+   "ancho": 496,
+   "alto": 864,
+   "duracion": 4.06,
+   "kb": 485
+  },
+  {
+   "id": "v4",
+   "video": "v4.mp4",
+   "poster": "v4.jpg",
+   "es": "Carrera junto al río con la ciudad al fondo",
+   "en": "A run by the river with the skyline behind",
+   "prompt": "a man jogging along a waterfront path, the city skyline at blue hour behind him",
+   "accion": "he runs towards the camera",
+   "ancho": 540,
+   "alto": 960,
+   "duracion": 4.06,
+   "kb": 424
+  },
+  {
+   "id": "v5",
+   "video": "v5.mp4",
+   "poster": "v5.jpg",
+   "es": "Huellas en la arena",
+   "en": "Footprints in the sand",
+   "prompt": "close-up of feet in white sandals walking on the sand of a beach in the afternoon sun",
+   "accion": "footprints appear in the sand",
+   "ancho": 540,
+   "alto": 960,
+   "duracion": 4.09,
+   "kb": 581
+  },
+  {
+   "id": "v6",
+   "video": "v6.mp4",
+   "poster": "v6.jpg",
+   "es": "Tres amigos se adentran en el desierto",
+   "en": "Three friends walk into the desert",
+   "prompt": "three men walk into a desert at sunset, mountains in the distance",
+   "accion": "they walk away from the camera",
+   "ancho": 548,
+   "alto": 960,
+   "duracion": 4.48,
+   "kb": 448
+  }
+ ],
+ "imagenes": [
+  {
+   "id": "i1",
+   "imagen": "i1.webp",
+   "es": "Retrato en estudio",
+   "en": "Studio portrait",
+   "ancho": 1280,
+   "alto": 720,
+   "kb": 58
+  },
+  {
+   "id": "i2",
+   "imagen": "i2.webp",
+   "es": "Oración a la luz de una vela",
+   "en": "A prayer by candlelight",
+   "ancho": 1024,
+   "alto": 1280,
+   "kb": 75
+  },
+  {
+   "id": "i3",
+   "imagen": "i3.webp",
+   "es": "Un gato en un prado de montaña",
+   "en": "A cat in a mountain meadow",
+   "ancho": 714,
+   "alto": 1280,
+   "kb": 127
+  },
+  {
+   "id": "i4",
+   "imagen": "i4.webp",
+   "es": "Campaña de moda",
+   "en": "Fashion campaign",
+   "ancho": 853,
+   "alto": 1280,
+   "kb": 111
+  }
+ ]
+}

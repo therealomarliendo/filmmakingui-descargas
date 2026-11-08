@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta name="robots" content="noindex, follow">
+<link rel="alternate" hreflang="en" href="en/windows-help.html">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instalar en Windows — FilmmakingUI</title>
+<meta name="description" content="Cómo instalar FilmmakingUI en Windows: aviso de SmartScreen, Smart App Control y versión portable de respaldo.">
+<link rel="stylesheet" href="fuentes.css">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="img/icono-32.png">
+<style>
+  :root {
+    --fondo: #16120E; --panel: #1E1A15; --borde: #2F2820; --texto: #F6F0E4; --texto-2: #CFC3AF; --tenue: #9C8D77;
+    --acento: #E8A060; --ok: #7FC8A0; --aviso: #E8C860;
+    --win-fondo: #FFFFFF; --win-texto: #1B1B1B; --win-azul: #0067C0; --win-gris: #F3F3F3; --win-borde: #D1D1D1;
+    --ss-azul: #1666B5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 16px/1.6 "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 16px 80px; }
+  h1 { font: 600 2.1rem/1.15 "Space Grotesk", "Segoe UI", system-ui, sans-serif; margin: 0 0 8px; }
+  h2 { font: 600 1.45rem/1.25 "Space Grotesk", "Segoe UI", system-ui, sans-serif; margin: 48px 0 12px; scroll-margin-top: 16px; }
+  h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+  p, li { color: var(--texto-2); }
+  a { color: var(--acento); }
+  code, kbd { font-family: "JetBrains Mono", ui-monospace, Consolas, "Courier New", monospace; background: var(--panel); border: 1px solid var(--borde); border-radius: 6px; padding: 1px 6px; font-size: .92em; color: var(--texto); }
+  .entradilla { font-size: 1.1rem; color: var(--texto-2); margin: 0 0 28px; }
+  nav.indice { background: var(--panel); border: 1px solid var(--borde); border-radius: 12px; padding: 14px 20px; }
+  nav.indice ol { margin: 0; padding-left: 20px; }
+  .tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 18px 0; }
+  .tarjeta { background: var(--panel); border: 1px solid var(--borde); border-radius: 12px; padding: 18px; }
+  .tarjeta h3 { margin: 0 0 6px; color: var(--texto); }
+  .tarjeta p { margin: 0; font-size: .95rem; }
+  .etq { display: inline-block; font: 700 .7rem/1 Consolas, monospace; letter-spacing: .08em; padding: 4px 7px; border-radius: 5px; margin-bottom: 10px; }
+  .etq-ok { background: rgba(127,200,160,.15); color: var(--ok); }
+  .etq-aviso { background: rgba(232,200,96,.15); color: var(--aviso); }
+  ol.pasos > li { margin-bottom: 10px; }
+  figure { margin: 22px 0; }
+  figcaption { color: var(--tenue); font-size: .85rem; margin-top: 8px; }
+  .ilustracion { font-style: normal; }
+  .idioma { float: right; font-size: .9rem; }
+  .nota { background: var(--panel); border-left: 3px solid var(--aviso); border-radius: 0 10px 10px 0; padding: 12px 16px; color: var(--texto-2); }
+
+  /* Ilustraciones de Windows (no son capturas reales) */
+  .win { background: var(--win-fondo); color: var(--win-texto); border-radius: 8px; border: 1px solid var(--win-borde); box-shadow: 0 10px 30px rgba(0,0,0,.45); overflow: hidden; max-width: 520px; font-family: "Segoe UI", system-ui, sans-serif; }
+  .ss { background: var(--ss-azul); color: #fff; padding: 26px 28px 22px; }
+  .ss h4 { font: 300 1.7rem/1.2 "Segoe UI Light", "Segoe UI", sans-serif; margin: 0 0 14px; }
+  .ss p { color: #fff; margin: 0 0 12px; font-size: .95rem; }
+  .ss .enlace { text-decoration: underline; color: #fff; }
+  .ss dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 6px 0 0; font-size: .95rem; }
+  .ss dt { opacity: .85; } .ss dd { margin: 0; }
+  .ss .botones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+  .ss .b { border: 2px solid #fff; background: transparent; color: #fff; padding: 6px 18px; font: inherit; font-size: .9rem; }
+  .ss .b-marcado { outline: 3px solid var(--acento); outline-offset: 3px; }
+  .seg { display: grid; grid-template-columns: 170px 1fr; min-height: 300px; }
+  .seg aside { background: var(--win-gris); padding: 18px 12px; font-size: .85rem; color: #444; }
+  .seg aside div { padding: 7px 10px; border-radius: 4px; }
+  .seg aside .activo { background: #E5E5E5; font-weight: 600; color: var(--win-texto); }
+  .seg section { padding: 22px 26px; }
+  .seg h4 { font: 600 1.3rem/1.2 "Segoe UI", sans-serif; margin: 0 0 10px; }
+  .seg p { color: #333; font-size: .88rem; margin: 0 0 12px; }
+  .radio { display: flex; align-items: center; gap: 10px; margin: 9px 0; font-size: .92rem; color: var(--win-texto); }
+  .radio span.c { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #777; display: inline-block; flex: none; }
+  .radio.on span.c { border: 5px solid var(--win-azul); }
+  .marcado { outline: 3px solid var(--acento); outline-offset: 4px; border-radius: 4px; }
+  .bloqueo { display: flex; gap: 14px; padding: 18px 20px; }
+  .bloqueo .escudo { width: 40px; height: 40px; flex: none; border-radius: 8px; background: #C42B1C; color: #fff; display: grid; place-items: center; font-weight: 700; }
+  .bloqueo h4 { margin: 0 0 4px; font-size: 1rem; }
+  .bloqueo p { margin: 0; color: #444; font-size: .88rem; }
+  .terminal { background: #0C0C0C; color: #CCCCCC; font: .9rem/1.5 Consolas, monospace; padding: 16px 18px; border-radius: 8px; overflow-x: auto; max-width: 620px; }
+  .terminal .c { color: #F9F1A5; }
+  @media (max-width: 560px) {
+    h1 { font-size: 1.7rem; }
+    .seg { grid-template-columns: 1fr; }
+    .seg aside { display: none; }
+    .ss { padding: 20px; }
+  }
+</style>
+</head>
+<body><div style="background:#2a2118;color:#f6f0e4;font:14px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">Copia de filmmakingui.com alojada en GitHub, para cuando la web principal no carga (por ejemplo, por los bloqueos de algunas operadoras durante el fútbol). Las descargas son los mismos archivos, con la misma huella SHA-256. <a style="color:#e8b04b" href="https://filmmakingui.com/">filmmakingui.com</a></div>
+<main>
+  <a class="idioma" href="en/windows-help.html" hreflang="en" lang="en">English</a>
+  <h1>Instalar FilmmakingUI en Windows</h1>
+  <p class="entradilla">Qué descargar, cómo pasar el aviso de SmartScreen y qué hacer si tu equipo tiene Smart App Control activo.</p>
+
+  <nav class="indice" aria-label="Índice">
+    <ol>
+      <li><a href="#que-descargar">Qué descargar</a></li>
+      <li><a href="#smartscreen">El aviso «Windows protegió su PC» (SmartScreen)</a></li>
+      <li><a href="#smart-app-control">¿Tengo Smart App Control activo?</a></li>
+      <li><a href="#portable">Versión portable de respaldo</a></li>
+      <li><a href="#datos">Tus datos y la desinstalación</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="que-descargar">1. Qué descargar</h2>
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <span class="etq etq-ok">RECOMENDADO</span>
+      <h3>Instalador</h3>
+      <p><code>FilmmakingUI-…-windows-x64-setup.exe</code>. Se instala solo para tu usuario, sin permisos de administrador. Si Windows muestra un aviso azul, sigue la <a href="#smartscreen">sección 2</a>.</p>
+    </div>
+    <div class="tarjeta">
+      <span class="etq etq-aviso">SI TIENES SMART APP CONTROL</span>
+      <h3>Portable de respaldo</h3>
+      <p><code>FilmmakingUI-…-windows-x64-portable.zip</code>. Funciona aunque Smart App Control esté activo. Ver la <a href="#portable">sección 4</a>.</p>
+    </div>
+  </div>
+  <p>¿No sabes cuál te toca? Mira primero si tienes <a href="#smart-app-control">Smart App Control activo</a>: si lo está, usa la portable; si no, el instalador.</p>
+
+  <h2 id="smartscreen">2. El aviso «Windows protegió su PC»</h2>
+  <p>Windows muestra este aviso con los programas nuevos que aún no conoce. Es normal en las primeras versiones de FilmmakingUI. Para continuar:</p>
+  <ol class="pasos">
+    <li>Haz clic en <strong>Más información</strong>.</li>
+    <li>Comprueba que la aplicación es <code>FilmmakingUI-…-setup.exe</code> y que la descargaste desde nuestra web.</li>
+    <li>Haz clic en <strong>Ejecutar de todas formas</strong>.</li>
+  </ol>
+  <figure>
+    <div class="win" role="img" aria-label="Ilustración del aviso de SmartScreen tras pulsar Más información">
+      <div class="ss">
+        <h4>Windows protegió su PC</h4>
+        <p>Microsoft Defender SmartScreen impidió el inicio de una aplicación no reconocida. Ejecutar esta aplicación puede poner su PC en peligro.</p>
+        <dl><dt>Aplicación:</dt><dd>FilmmakingUI-1.1.0-windows-x64-setup.exe</dd><dt>Editor:</dt><dd>Editor desconocido</dd></dl>
+        <div class="botones"><span class="b b-marcado">Ejecutar de todas formas</span><span class="b">No ejecutar</span></div>
+      </div>
+    </div>
+    <figcaption class="ilustracion">Ilustración: el aviso después de pulsar «Más información». El botón marcado es el que tienes que pulsar.</figcaption>
+  </figure>
+  <div class="nota">Si en lugar de este aviso ves que <strong>Smart App Control bloqueó</strong> el archivo y no aparece «Más información» ni «Ejecutar de todas formas», no hay forma de saltarlo: usa la <a href="#portable">portable de respaldo</a>.</div>
+
+  <h2 id="smart-app-control">3. ¿Tengo Smart App Control activo?</h2>
+  <p>Smart App Control viene activado en algunas instalaciones nuevas de Windows 11. Bloquea los programas que no están firmados o que Windows aún no conoce, sin dar la opción de ejecutarlos igualmente.</p>
+  <h3>Comprobarlo desde Configuración</h3>
+  <ol class="pasos">
+    <li>Abre <strong>Seguridad de Windows</strong> (búscalo en el menú Inicio).</li>
+    <li>Entra en <strong>Control de aplicaciones y navegador</strong>.</li>
+    <li>Pulsa <strong>Configuración de Smart App Control</strong> y mira qué opción está marcada.</li>
+  </ol>
+  <figure>
+    <div class="win seg" role="img" aria-label="Ilustración de la configuración de Smart App Control">
+      <aside><div>Inicio</div><div>Protección antivirus</div><div>Firewall y red</div><div class="activo">Control de aplicaciones y navegador</div><div>Seguridad del dispositivo</div></aside>
+      <section>
+        <h4>Smart App Control</h4>
+        <p>Ayuda a proteger el dispositivo bloqueando las aplicaciones que no son de confianza.</p>
+        <div class="radio on marcado"><span class="c"></span>Activado</div>
+        <div class="radio"><span class="c"></span>Evaluación</div>
+        <div class="radio"><span class="c"></span>Desactivado</div>
+      </section>
+    </div>
+    <figcaption class="ilustracion">Ilustración: si está en «Activado», usa la portable de respaldo. En «Evaluación» o «Desactivado» funciona el instalador.</figcaption>
+  </figure>
+  <h3>O con un comando</h3>
+  <p>Abre <strong>PowerShell</strong> y escribe:</p>
+  <div class="terminal">PS&gt; <span class="c">(Get-MpComputerStatus).SmartAppControlState</span><br>On</div>
+  <p><code>On</code> = activado (usa la portable). <code>Eval</code> = en evaluación. <code>Off</code> = desactivado.</p>
+  <div class="nota">No te recomendamos desactivar Smart App Control para instalar FilmmakingUI: una vez desactivado, Windows no permite volver a activarlo sin reinstalar el sistema. La portable de respaldo existe precisamente para no tener que hacerlo.</div>
+  <figure>
+    <div class="win" role="img" aria-label="Ilustración de un aviso de bloqueo de Smart App Control">
+      <div class="bloqueo"><div class="escudo">!</div><div><h4>Smart App Control bloqueó una aplicación</h4><p>FilmmakingUI-1.1.0-windows-x64-setup.exe</p></div></div>
+    </div>
+    <figcaption class="ilustracion">Ilustración: así se ve un bloqueo de Smart App Control. No hay botón para continuar.</figcaption>
+  </figure>
+
+  <h2 id="portable">4. Versión portable de respaldo</h2>
+  <p>Arranca con el Python oficial, firmado por la Python Software Foundation, que Smart App Control sí permite. Funciona igual que la versión instalada.</p>
+  <ol class="pasos">
+    <li>Descarga <code>FilmmakingUI-…-windows-x64-portable.zip</code>.</li>
+    <li>Haz clic derecho → <strong>Extraer todo…</strong> y elige una carpeta, por ejemplo <code>Documentos\FilmmakingUI</code>.</li>
+    <li>Abre <strong>FilmmakingUI.bat</strong>. La primera vez se abre el navegador para crear tu usuario y contraseña.</li>
+    <li>Si Editar imagen, Editar vídeo o Secuencia avisan de que <strong>falta ffmpeg</strong>, abre <strong>Instalar ffmpeg.bat</strong> una vez (usa <code>winget</code>, el instalador de Microsoft) y vuelve a abrir FilmmakingUI.</li>
+  </ol>
+
+  <h2 id="datos">5. Tus datos y la desinstalación</h2>
+  <ul>
+    <li>Proyectos, galería, personajes, ubicaciones, props, keys cifradas y ajustes se guardan en <code>%APPDATA%\FilmmakingUI</code>. Los comparten el instalador, la portable y la versión de Microsoft Store.</li>
+    <li>Al <strong>desinstalar</strong>, Windows pregunta si borrar también tus datos. La respuesta por defecto es <strong>No</strong>: si vuelves a instalar, FilmmakingUI los retoma sin pedirte crear el usuario otra vez.</li>
+    <li>Si tenías una instalación anterior en <code>C:\AI\FILMMAKING_PIPELINE</code>, la primera vez que abras la nueva versión te ofrecerá copiar tus proyectos. Solo se copian: la carpeta antigua no se modifica.</li>
+  </ul>
+</main>
+<footer style="max-width: 860px; margin: 0 auto; padding: 24px; text-align: center; font-size: .9rem;">
+  <a href="index.html">FilmmakingUI</a> · <a href="mailto:soporte@filmmakingui.com">Contacto</a> · <a href="solicitar-reembolso.html">Solicitar reembolso</a>
+</footer>
+</body>
+</html>
