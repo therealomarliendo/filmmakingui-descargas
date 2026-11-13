@@ -26,12 +26,14 @@
 <link rel="icon" href="../../favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="../../img/icono-32.png">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preload" href="../../fuentes/Inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../fuentes/SpaceGrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../../estilo.css">
 </head>
 <body class=""><div style="background:#2a2118;color:#f6f0e4;font:14px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">Copy of filmmakingui.com hosted on GitHub, for when the main website does not load. The downloads are the same files, with the same SHA-256 fingerprint. <a style="color:#e8b04b" href="https://filmmakingui.com/">filmmakingui.com</a></div>
 <header class="barra"><a class="marca" href="../../en/index.html"><img class="marca-rayo" src="../../img/logo-rayo.png" alt="" width="13" height="32">FilmmakingUI</a><nav><a href="../../en/index.html">Home</a><a href="../../en/index.html#precios">Pricing</a><a href="../../en/download.html">Download</a><a href="../../en/help/index.html">Help</a><a class="idioma" href="../../ayuda/montaje.html" hreflang="es" lang="es">Español</a></nav></header>
 <main>
-<div class="ayuda"><nav class="indice"><ol><li><a href="index.html">Quick start</a></li><li><a href="film.html">Film</a></li><li><a href="marketing.html">Marketing</a></li><li><a href="continuous-sequence.html">Sequence</a></li><li><a href="external.html">External</a></li><li><a href="library.html">Library: characters, locations and props</a></li><li><a href="edit-image.html">Edit image</a></li><li><a href="edit-video.html">Transform video</a></li><li><a href="higgsfield.html">HiggsfieldUI</a></li><li><a href="settings.html">Settings</a></li><li><a href="editor.html">Editor</a></li><li><a href="explainer.html">Explainer</a></li><li><a href="recorder.html">Recorder</a></li><li><a href="assistant.html">Assistant</a></li></ol></nav><article><h1>Editor</h1>
+<div class="ayuda"><nav class="indice"><ol><li><a href="index.html">Quick start</a></li><li><a href="film.html">Film</a></li><li><a href="marketing.html">Marketing</a></li><li><a href="continuous-sequence.html">Sequence</a></li><li><a href="external.html">External</a></li><li><a href="library.html">Library: characters, locations and props</a></li><li><a href="edit-image.html">Edit image</a></li><li><a href="edit-video.html">Transform video</a></li><li><a href="higgsfield.html">HiggsfieldUI</a></li><li><a href="settings.html">Settings</a></li><li><a href="editor.html">Editor</a></li><li><a href="explainer.html">Explainer</a></li><li><a href="recorder.html">Recorder</a></li><li><a href="assistant.html">Assistant</a></li><li><a href="connect-n8n.html">Connect n8n (API for automations)</a></li></ol></nav><article><h1>Editor</h1>
 <p>FilmmakingUI's <strong>video editor</strong>: join your shots on a timeline, add effects, transitions and text, and export the final video. <strong>It costs no credit</strong>: everything runs on your computer.</p>
 <p class="aviso">Don't confuse it with <strong>Transform video</strong> (under TOOLS), which transforms a video with AI (motion control, replace character, lip-sync…). The Editor is the cutting room; Transform video is a special effect.</p>
 <h2>Where it is</h2>
@@ -41,6 +43,12 @@
 <h2>AI editor</h2>
 <p>Below the editor. Pick a style (vlog, trailer, action, social media…), tell Claude what you want and it builds or changes the montage. Before sending you see the <strong>estimated cost</strong>; each montage has a <strong>spending limit</strong> that saves when you change it.</p>
 <ul><li>Recommended model: <strong>Claude Sonnet 5.5</strong> (default). Claude Haiku 5.5 is cheaper but edits worse.</li><li>The result is applied to the editor and you can undo it with <strong>Ctrl+Z</strong> inside the editor.</li></ul>
+<h2>Templates (CapCut-style)</h2>
+<p>Under <strong>AI editor and exports → Templates</strong> there are 10 templates: Cinematic trailer, Product ad, UGC / TikTok, Reel, Explainer, Dynamic vlog, Before / after, Documentary, Action and Square social post (plus your own).</p>
+<ol><li>Place your clips in the montage (each template says the minimum it needs).</li><li>Pick a template, fill in the title, call to action or labels, and set the format (16:9, 9:16, 1:1) and pace.</li><li><strong>Preview changes</strong> reports how many clips, how long and how many texts it would have, without touching anything. <strong>Apply template</strong> rewrites the cut pacing (beats per minute for the Reel), transitions, zoom, colour, effects, texts and format of your clips. The originals are never touched, the <strong>cost is 0</strong> and you can undo with <strong>Ctrl+Z</strong> in the editor.</li><li><strong>Save as own template</strong> keeps the pacing and style of the current montage (not the clips) for other montages.</li></ol>
+<p>The Assistant and MCP use the same templates through <code>listar_plantillas</code>, <code>aplicar_plantilla</code> and <code>ajustar_plantilla</code>.</p>
+<h2>Light and dark theme</h2>
+<p>The editor follows the app theme (Settings → Theme: light, dark or automatic) and switches instantly.</p>
 <h2>Montages from earlier versions</h2>
 <p>Montages from 1.7 and 1.8 appear in the list as «version 1.7». Opening one makes a <strong>copy</strong> in the new editor (clips, trims, volume, fades, zoom, text and audio); the original is not touched.</p>
 <h2>Licenses</h2>

@@ -26,12 +26,14 @@
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="../img/icono-32.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preload" href="../fuentes/Inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fuentes/SpaceGrotesk-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../estilo.css">
 </head>
 <body class=""><div style="background:#2a2118;color:#f6f0e4;font:14px/1.4 system-ui,sans-serif;padding:8px 16px;text-align:center">Copia de filmmakingui.com alojada en GitHub, para cuando la web principal no carga (por ejemplo, por los bloqueos de algunas operadoras durante el fútbol). Las descargas son los mismos archivos, con la misma huella SHA-256. <a style="color:#e8b04b" href="https://filmmakingui.com/">filmmakingui.com</a></div>
 <header class="barra"><a class="marca" href="../index.html"><img class="marca-rayo" src="../img/logo-rayo.png" alt="" width="13" height="32">FilmmakingUI</a><nav><a href="../index.html">Inicio</a><a href="../index.html#precios">Precios</a><a href="../descarga.html">Descargar</a><a href="../ayuda/index.html">Ayuda</a><a class="idioma" href="../en/help/editor.html" hreflang="en" lang="en">English</a></nav></header>
 <main>
-<div class="ayuda"><nav class="indice"><ol><li><a href="index.html">Inicio rápido</a></li><li><a href="cine.html">Cine</a></li><li><a href="marketing.html">Marketing</a></li><li><a href="secuencia-continua.html">Secuencia</a></li><li><a href="externa.html">Externa</a></li><li><a href="biblioteca.html">Biblioteca: personajes, ubicaciones y props</a></li><li><a href="editar-imagen.html">Editar imagen</a></li><li><a href="editar-video.html">Transformar vídeo</a></li><li><a href="higgsfield.html">HiggsfieldUI</a></li><li><a href="ajustes.html">Ajustes</a></li><li><a href="montaje.html">Montaje</a></li><li><a href="explainer.html">Explainer</a></li><li><a href="grabador.html">Grabador</a></li><li><a href="asistente.html">Asistente</a></li></ol></nav><article><h1>Montaje</h1>
+<div class="ayuda"><nav class="indice"><ol><li><a href="index.html">Inicio rápido</a></li><li><a href="cine.html">Cine</a></li><li><a href="marketing.html">Marketing</a></li><li><a href="secuencia-continua.html">Secuencia</a></li><li><a href="externa.html">Externa</a></li><li><a href="biblioteca.html">Biblioteca: personajes, ubicaciones y props</a></li><li><a href="editar-imagen.html">Editar imagen</a></li><li><a href="editar-video.html">Transformar vídeo</a></li><li><a href="higgsfield.html">HiggsfieldUI</a></li><li><a href="ajustes.html">Ajustes</a></li><li><a href="montaje.html">Montaje</a></li><li><a href="explainer.html">Explainer</a></li><li><a href="grabador.html">Grabador</a></li><li><a href="asistente.html">Asistente</a></li><li><a href="conectar-n8n.html">Conectar n8n (API para automatizaciones)</a></li></ol></nav><article><h1>Montaje</h1>
 <p>El <strong>editor de vídeo</strong> de FilmmakingUI: une tus tomas en una línea de tiempo, les pone efectos, transiciones y textos, y exporta el vídeo final. <strong>No gasta crédito</strong>: todo se hace en tu equipo.</p>
 <p class="aviso">No lo confundas con <strong>Transformar vídeo</strong> (en HERRAMIENTAS), que transforma un vídeo con IA (motion control, reemplazar personaje, lip-sync…). Montaje es la sala de edición; Transformar vídeo es un efecto especial.</p>
 <h2>Dónde está</h2>
@@ -41,6 +43,12 @@
 <h2>Editor con IA</h2>
 <p>Debajo del editor. Elige un estilo (vlog, tráiler, acción, redes sociales…), cuéntale a Claude qué quieres y él arma o cambia el montaje. Antes de enviar ves el <strong>coste estimado</strong>; cada montaje tiene un <strong>límite de gasto</strong> que se guarda al cambiarlo.</p>
 <ul><li>Modelo recomendado: <strong>Claude Sonnet 5.5</strong> (por defecto). Claude Haiku 5.5 es más barato pero edita peor.</li><li>El resultado se aplica al editor y puedes deshacerlo con <strong>Ctrl+Z</strong> dentro del editor.</li></ul>
+<h2>Plantillas (estilo CapCut)</h2>
+<p>En <strong>Editor con IA y exportaciones → Plantillas</strong> hay 10 plantillas: Tráiler cinematográfico, Anuncio de producto, UGC / TikTok, Reel, Explainer, Vlog dinámico, Antes / después, Documental, Acción y Cuadrado para redes (más las tuyas).</p>
+<ol><li>Coloca tus clips en el montaje (la plantilla indica cuántos necesita como mínimo).</li><li>Elige una plantilla, rellena el título, la llamada a la acción o los rótulos, y ajusta el formato (16:9, 9:16, 1:1) y el ritmo.</li><li><strong>Previsualizar cambios</strong> dice cuántos clips, cuánto dura y cuántos textos tendría, sin tocar nada. <strong>Aplicar plantilla</strong> reescribe el ritmo de cortes (con pulsos por minuto en el Reel), las transiciones, el zoom, el color, los efectos, los textos y el formato de tus clips. Los originales no se tocan, el <strong>coste es 0</strong> y se puede deshacer con <strong>Ctrl+Z</strong> en el editor.</li><li><strong>Guardar como plantilla propia</strong> guarda el ritmo y el estilo del montaje actual (no los clips) para usarlo en otros.</li></ol>
+<p>El Asistente y el MCP usan las mismas plantillas con <code>listar_plantillas</code>, <code>aplicar_plantilla</code> y <code>ajustar_plantilla</code>.</p>
+<h2>Tema claro y oscuro</h2>
+<p>El editor sigue el tema de la app (Ajustes → Tema: claro, oscuro o automático) y cambia al momento.</p>
 <h2>Montajes de versiones anteriores</h2>
 <p>Los montajes de la 1.7 y la 1.8 aparecen en la lista con «versión 1.7». Al abrirlos se hace una <strong>copia</strong> en el editor nuevo (clips, recortes, volumen, fundidos, zoom, textos y audio); el original no se toca.</p>
 <h2>Licencias</h2>

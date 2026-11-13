@@ -1,0 +1,844 @@
+{
+  "name": "FilmmakingUI — vídeos virales en serie (Google Sheets)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 10
+            }
+          ]
+        }
+      },
+      "id": "2ff97766-d02b-50f7-909e-ac56eed77911",
+      "name": "Cada 10 minutos",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1000,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "4ae2e9d9-f5b3-500d-886e-0f780e56cc57",
+      "name": "Ejecutar a mano",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1000,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "api_base",
+              "value": "http://127.0.0.1:8780/api/v1",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "api_token",
+              "value": "PEGA_AQUI_TU_TOKEN_fui_...",
+              "type": "string"
+            },
+            {
+              "id": "3",
+              "name": "modelo_imagen",
+              "value": "fal-ai/flux-2/flash",
+              "type": "string"
+            },
+            {
+              "id": "4",
+              "name": "modelo_video",
+              "value": "h3-max-turbo",
+              "type": "string"
+            },
+            {
+              "id": "5",
+              "name": "resolucion_video",
+              "value": "480p",
+              "type": "string"
+            },
+            {
+              "id": "6",
+              "name": "duracion_clip",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "7",
+              "name": "escenas",
+              "value": 3,
+              "type": "number"
+            },
+            {
+              "id": "8",
+              "name": "max_cost_defecto",
+              "value": 0.5,
+              "type": "number"
+            },
+            {
+              "id": "9",
+              "name": "formato_defecto",
+              "value": "9:16",
+              "type": "string"
+            },
+            {
+              "id": "10",
+              "name": "estilo",
+              "value": "cinematic vertical video frame, vivid colors, no text",
+              "type": "string"
+            },
+            {
+              "id": "11",
+              "name": "movimiento",
+              "value": "smooth camera motion",
+              "type": "string"
+            },
+            {
+              "id": "12",
+              "name": "prefijo_clave",
+              "value": "serie",
+              "type": "string"
+            },
+            {
+              "id": "13",
+              "name": "espera_maxima_min",
+              "value": 20,
+              "type": "number"
+            },
+            {
+              "id": "14",
+              "name": "sondeo_s",
+              "value": 5,
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "d68ef21c-7897-5805-9835-0e4dfddd8f87",
+      "name": "Configuración",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -780,
+        280
+      ],
+      "notes": "Pega aquí el token de FilmmakingUI (Ajustes → API). NO compartas este flujo con el token dentro.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "getAll",
+        "documentId": {
+          "__rl": true,
+          "value": "PEGA_AQUI_EL_ID_DE_TU_HOJA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Ideas",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "estado",
+              "lookupValue": "pendiente"
+            }
+          ]
+        },
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "7dcb1379-6999-5a50-95a1-367aded5f481",
+      "name": "Leer ideas pendientes",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -560,
+        280
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "6f6b04b2-9f29-59f3-a366-1665f2e3b546",
+      "name": "Una idea cada vez",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -340,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Configuración').first().json;\nconst base = String(cfg.api_base).replace(/\\/+$/, '');\nconst peticion = async (metodo, ruta, cuerpo, clave) => {\n  const opciones = { method: metodo, url: base + ruta, json: true, ignoreHttpStatusErrors: true, returnFullResponse: true,\n    headers: { Authorization: 'Bearer ' + cfg.api_token, ...(clave ? { 'Idempotency-Key': clave } : {}) } };\n  if (cuerpo) opciones.body = cuerpo;\n  const r = await this.helpers.httpRequest(opciones);\n  if (r.statusCode >= 400) {\n    const err = (r.body && r.body.error) || {};\n    throw new Error((err.code ? err.code + ': ' : 'HTTP ' + r.statusCode + ': ') + (err.message || 'error') + (err.how_to_fix ? ' → ' + err.how_to_fix : ''));\n  }\n  return r.body;\n};\nconst dormir = (ms) => new Promise((r) => setTimeout(r, ms));\nconst limpiar = (t) => String(t).replace(/[^A-Za-z0-9_\\-:.]/g, '-').slice(0, 24);\n// Espera a que TODOS los trabajos terminen. Devuelve {ok, trabajos, coste} o {ok:false, motivo}.\nconst esperar = async (ids) => {\n  const limite = Date.now() + Number(cfg.espera_maxima_min || 20) * 60000;\n  let coste = 0;\n  for (;;) {\n    const estados = [];\n    for (const id of ids) estados.push(await peticion('GET', '/jobs/' + id));\n    const mal = estados.find((j) => j.status === 'failed' || j.status === 'canceled');\n    if (mal) return { ok: false, motivo: 'Falló ' + mal.id + ': ' + ((mal.error && mal.error.message) || mal.status) };\n    if (estados.every((j) => j.status === 'succeeded')) {\n      coste = estados.reduce((s, j) => s + Number((j.cost && j.cost.final) || 0), 0);\n      return { ok: true, trabajos: estados, coste };\n    }\n    if (Date.now() > limite) return { ok: false, motivo: 'Tiempo de espera agotado' };\n    await dormir(Number(cfg.sondeo_s || 5) * 1000);\n  }\n};\n\n// 1) Una fila = una idea. Reparte el guion en escenas y ESTIMA el coste total sin generar nada.\nconst fila = $input.first().json;\nconst tema = String(fila.tema || '').trim();\nconst guion = String(fila['guion corto'] || fila.guion || '').trim();\nconst formato = String(fila.formato || cfg.formato_defecto || '9:16').trim();\nconst maxCost = Number(fila.max_cost || cfg.max_cost_defecto);\nconst base_fila = { row_number: fila.row_number, tema, guion, formato, max_cost: maxCost };\nif (!tema || !guion) return [{ json: { ...base_fila, ok: false, motivo: 'Faltan el tema o el guion corto' } }];\nif (!['9:16', '16:9', '1:1'].includes(formato)) return [{ json: { ...base_fila, ok: false, motivo: 'Formato no válido: usa 9:16, 16:9 o 1:1' } }];\nconst n = Number(cfg.escenas || 3);\nconst frases = guion.split(/(?<=[.!?…])\\s+/).filter(Boolean);\nconst escenas = Array.from({ length: n }, (_, i) => {\n  const frase = frases[Math.min(Math.floor((i * frases.length) / n), frases.length - 1)];\n  return { prompt_imagen: `${tema}. ${frase}. ${cfg.estilo}`, prompt_video: `${frase} — ${cfg.movimiento}` };\n});\nconst plantilla = formato === '9:16' ? 'ugc_tiktok' : formato === '1:1' ? 'cuadrado_social' : 'anuncio_producto';\nlet coste = 0;\nfor (const e of escenas) {\n  const ei = await peticion('POST', '/estimates', { type: 'image', model: cfg.modelo_imagen, params: { prompt: e.prompt_imagen, aspect_ratio: formato } });\n  const ev = await peticion('POST', '/estimates', { type: 'video', model: cfg.modelo_video,\n    params: { prompt: e.prompt_video, image_url: 'https://example.com/estimacion.png', duration: Number(cfg.duracion_clip), resolution: cfg.resolucion_video, aspect_ratio: formato } });\n  if (ei.estimated_cost == null || ev.estimated_cost == null) {\n    return [{ json: { ...base_fila, ok: false, motivo: 'No se puede estimar el coste de este modelo' } }];\n  }\n  coste += ei.estimated_cost + ev.estimated_cost;\n}\ncoste = Math.round(coste * 10000) / 10000;\nconst clave = limpiar(`${cfg.prefijo_clave}-${fila.row_number}-${tema}`);\nreturn [{ json: { ...base_fila, ok: coste <= maxCost, motivo: coste <= maxCost ? '' : `Coste estimado $${coste.toFixed(2)} > max_cost $${maxCost.toFixed(2)}`,\n  escenas, plantilla, coste_estimado: coste, clave } }];\n",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "34ba9f3b-8431-587a-a748-28c51dabfd5e",
+      "name": "Preparar y estimar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        280
+      ],
+      "notes": "Reparte el guion en escenas y estima el coste total (sin generar nada).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "01056caf-c141-5d8c-8c80-3ad46b41fec0",
+      "name": "¿Cabe en max_cost?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        100,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Configuración').first().json;\nconst base = String(cfg.api_base).replace(/\\/+$/, '');\nconst peticion = async (metodo, ruta, cuerpo, clave) => {\n  const opciones = { method: metodo, url: base + ruta, json: true, ignoreHttpStatusErrors: true, returnFullResponse: true,\n    headers: { Authorization: 'Bearer ' + cfg.api_token, ...(clave ? { 'Idempotency-Key': clave } : {}) } };\n  if (cuerpo) opciones.body = cuerpo;\n  const r = await this.helpers.httpRequest(opciones);\n  if (r.statusCode >= 400) {\n    const err = (r.body && r.body.error) || {};\n    throw new Error((err.code ? err.code + ': ' : 'HTTP ' + r.statusCode + ': ') + (err.message || 'error') + (err.how_to_fix ? ' → ' + err.how_to_fix : ''));\n  }\n  return r.body;\n};\nconst dormir = (ms) => new Promise((r) => setTimeout(r, ms));\nconst limpiar = (t) => String(t).replace(/[^A-Za-z0-9_\\-:.]/g, '-').slice(0, 24);\n// Espera a que TODOS los trabajos terminen. Devuelve {ok, trabajos, coste} o {ok:false, motivo}.\nconst esperar = async (ids) => {\n  const limite = Date.now() + Number(cfg.espera_maxima_min || 20) * 60000;\n  let coste = 0;\n  for (;;) {\n    const estados = [];\n    for (const id of ids) estados.push(await peticion('GET', '/jobs/' + id));\n    const mal = estados.find((j) => j.status === 'failed' || j.status === 'canceled');\n    if (mal) return { ok: false, motivo: 'Falló ' + mal.id + ': ' + ((mal.error && mal.error.message) || mal.status) };\n    if (estados.every((j) => j.status === 'succeeded')) {\n      coste = estados.reduce((s, j) => s + Number((j.cost && j.cost.final) || 0), 0);\n      return { ok: true, trabajos: estados, coste };\n    }\n    if (Date.now() > limite) return { ok: false, motivo: 'Tiempo de espera agotado' };\n    await dormir(Number(cfg.sondeo_s || 5) * 1000);\n  }\n};\n\n// 2) Crea las imágenes (una por escena). Idempotency-Key: si n8n reintenta el nodo, NO se cobra dos veces.\nconst fila = $input.first().json;\nconst ids = [];\nfor (let i = 0; i < fila.escenas.length; i++) {\n  const r = await peticion('POST', '/jobs', { type: 'image', model: cfg.modelo_imagen, max_cost: fila.max_cost,\n    params: { prompt: fila.escenas[i].prompt_imagen, aspect_ratio: fila.formato, n: 1, name: `escena-${i + 1}` },\n    metadata: { fila: fila.row_number, escena: i + 1 } }, `${fila.clave}-img${i + 1}`);\n  ids.push(r.id);\n}\nconst fin = await esperar(ids);\nif (!fin.ok) return [{ json: { ...fila, ok: false, motivo: fin.motivo } }];\nreturn [{ json: { ...fila, ok: true, imagenes: ids, coste_imagenes: fin.coste } }];\n",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "5a1b256b-4699-549e-a6be-ba1bc5316c47",
+      "name": "Crear imágenes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        180
+      ],
+      "notes": "Una imagen por escena, con Idempotency-Key y max_cost.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c9",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "de3cee6f-05d6-5489-a374-1da61aa38b8a",
+      "name": "¿Imágenes listas?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        430,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Configuración').first().json;\nconst base = String(cfg.api_base).replace(/\\/+$/, '');\nconst peticion = async (metodo, ruta, cuerpo, clave) => {\n  const opciones = { method: metodo, url: base + ruta, json: true, ignoreHttpStatusErrors: true, returnFullResponse: true,\n    headers: { Authorization: 'Bearer ' + cfg.api_token, ...(clave ? { 'Idempotency-Key': clave } : {}) } };\n  if (cuerpo) opciones.body = cuerpo;\n  const r = await this.helpers.httpRequest(opciones);\n  if (r.statusCode >= 400) {\n    const err = (r.body && r.body.error) || {};\n    throw new Error((err.code ? err.code + ': ' : 'HTTP ' + r.statusCode + ': ') + (err.message || 'error') + (err.how_to_fix ? ' → ' + err.how_to_fix : ''));\n  }\n  return r.body;\n};\nconst dormir = (ms) => new Promise((r) => setTimeout(r, ms));\nconst limpiar = (t) => String(t).replace(/[^A-Za-z0-9_\\-:.]/g, '-').slice(0, 24);\n// Espera a que TODOS los trabajos terminen. Devuelve {ok, trabajos, coste} o {ok:false, motivo}.\nconst esperar = async (ids) => {\n  const limite = Date.now() + Number(cfg.espera_maxima_min || 20) * 60000;\n  let coste = 0;\n  for (;;) {\n    const estados = [];\n    for (const id of ids) estados.push(await peticion('GET', '/jobs/' + id));\n    const mal = estados.find((j) => j.status === 'failed' || j.status === 'canceled');\n    if (mal) return { ok: false, motivo: 'Falló ' + mal.id + ': ' + ((mal.error && mal.error.message) || mal.status) };\n    if (estados.every((j) => j.status === 'succeeded')) {\n      coste = estados.reduce((s, j) => s + Number((j.cost && j.cost.final) || 0), 0);\n      return { ok: true, trabajos: estados, coste };\n    }\n    if (Date.now() > limite) return { ok: false, motivo: 'Tiempo de espera agotado' };\n    await dormir(Number(cfg.sondeo_s || 5) * 1000);\n  }\n};\n\n// 3) Anima cada imagen a vídeo (image_job = la salida del trabajo de imagen).\nconst fila = $input.first().json;\nconst ids = [];\nfor (let i = 0; i < fila.imagenes.length; i++) {\n  const r = await peticion('POST', '/jobs', { type: 'video', model: cfg.modelo_video, max_cost: fila.max_cost,\n    params: { prompt: fila.escenas[i].prompt_video, image_job: fila.imagenes[i], duration: Number(cfg.duracion_clip),\n      resolution: cfg.resolucion_video, aspect_ratio: fila.formato, name: `clip-${i + 1}` },\n    metadata: { fila: fila.row_number, escena: i + 1 } }, `${fila.clave}-vid${i + 1}`);\n  ids.push(r.id);\n}\nconst fin = await esperar(ids);\nif (!fin.ok) return [{ json: { ...fila, ok: false, motivo: fin.motivo } }];\nreturn [{ json: { ...fila, ok: true, videos: ids, coste_videos: fin.coste } }];\n",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "82a85e11-0281-56fa-a668-a0e5d2fbbb57",
+      "name": "Animar a vídeo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        180
+      ],
+      "notes": "",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c9",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c94ea3f4-8686-5db3-87ba-859ab5950ef3",
+      "name": "¿Vídeos listos?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        650,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Configuración').first().json;\nconst base = String(cfg.api_base).replace(/\\/+$/, '');\nconst peticion = async (metodo, ruta, cuerpo, clave) => {\n  const opciones = { method: metodo, url: base + ruta, json: true, ignoreHttpStatusErrors: true, returnFullResponse: true,\n    headers: { Authorization: 'Bearer ' + cfg.api_token, ...(clave ? { 'Idempotency-Key': clave } : {}) } };\n  if (cuerpo) opciones.body = cuerpo;\n  const r = await this.helpers.httpRequest(opciones);\n  if (r.statusCode >= 400) {\n    const err = (r.body && r.body.error) || {};\n    throw new Error((err.code ? err.code + ': ' : 'HTTP ' + r.statusCode + ': ') + (err.message || 'error') + (err.how_to_fix ? ' → ' + err.how_to_fix : ''));\n  }\n  return r.body;\n};\nconst dormir = (ms) => new Promise((r) => setTimeout(r, ms));\nconst limpiar = (t) => String(t).replace(/[^A-Za-z0-9_\\-:.]/g, '-').slice(0, 24);\n// Espera a que TODOS los trabajos terminen. Devuelve {ok, trabajos, coste} o {ok:false, motivo}.\nconst esperar = async (ids) => {\n  const limite = Date.now() + Number(cfg.espera_maxima_min || 20) * 60000;\n  let coste = 0;\n  for (;;) {\n    const estados = [];\n    for (const id of ids) estados.push(await peticion('GET', '/jobs/' + id));\n    const mal = estados.find((j) => j.status === 'failed' || j.status === 'canceled');\n    if (mal) return { ok: false, motivo: 'Falló ' + mal.id + ': ' + ((mal.error && mal.error.message) || mal.status) };\n    if (estados.every((j) => j.status === 'succeeded')) {\n      coste = estados.reduce((s, j) => s + Number((j.cost && j.cost.final) || 0), 0);\n      return { ok: true, trabajos: estados, coste };\n    }\n    if (Date.now() > limite) return { ok: false, motivo: 'Tiempo de espera agotado' };\n    await dormir(Number(cfg.sondeo_s || 5) * 1000);\n  }\n};\n\n// 4) Montaje local con la plantilla vertical (gratis) y los subtítulos del guion. El webhook vuelve a ESTE flujo (nodo Wait).\nconst fila = $input.first().json;\nconst r = await peticion('POST', '/jobs', { type: 'montage',\n  params: { clips: fila.videos, template: fila.plantilla, title: fila.tema, captions: fila.guion, name: fila.tema },\n  webhook: { url: $execution.resumeUrl }, metadata: { fila: fila.row_number } }, `${fila.clave}-montaje`);\nreturn [{ json: { ...fila, montaje_id: r.id } }];\n",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "9284f366-5ddb-5179-ade3-0a8f5c990a0e",
+      "name": "Montaje",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        180
+      ],
+      "notes": "Plantilla vertical con subtítulos; el webhook vuelve al nodo Wait.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "options": {
+          "limitWaitTime": true
+        },
+        "limitType": "afterTimeInterval",
+        "resumeAmount": 30,
+        "resumeUnit": "minutes"
+      },
+      "id": "7970c7be-fc53-5d3a-b428-030c21bdbbd9",
+      "name": "Esperar webhook",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        980,
+        180
+      ],
+      "webhookId": "60441efb-2a16-5221-bb6e-b56babb161de"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "c2",
+              "leftValue": "={{ ($json.body && $json.body.job ? $json.body.job.status : $json.job.status) }}",
+              "rightValue": "succeeded",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "3b53f244-1dea-56be-8752-eeecdcc7d932",
+      "name": "¿Montaje listo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Configuración').first().json.api_base }}/jobs/{{ ($json.body ? $json.body.job.id : $json.job.id) }}/files/1",
+        "authentication": "none",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Configuración').first().json.api_token }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      },
+      "id": "ddfac546-40ae-5fbf-b462-c0eaaf161afa",
+      "name": "Descargar vídeo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1420,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upload",
+        "name": "={{ $('Montaje').first().json.tema }}.mp4",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root"
+        },
+        "options": {}
+      },
+      "id": "286181d2-e8fa-5d01-b153-bfa1cac4b4d6",
+      "name": "Subir a Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1640,
+        100
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "",
+          "name": "Google Drive"
+        }
+      },
+      "notes": "Opcional: si no quieres Drive, desactiva este nodo y el enlace será el de la API.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const cfg = $('Configuración').first().json;\nconst base = String(cfg.api_base).replace(/\\/+$/, '');\nconst peticion = async (metodo, ruta, cuerpo, clave) => {\n  const opciones = { method: metodo, url: base + ruta, json: true, ignoreHttpStatusErrors: true, returnFullResponse: true,\n    headers: { Authorization: 'Bearer ' + cfg.api_token, ...(clave ? { 'Idempotency-Key': clave } : {}) } };\n  if (cuerpo) opciones.body = cuerpo;\n  const r = await this.helpers.httpRequest(opciones);\n  if (r.statusCode >= 400) {\n    const err = (r.body && r.body.error) || {};\n    throw new Error((err.code ? err.code + ': ' : 'HTTP ' + r.statusCode + ': ') + (err.message || 'error') + (err.how_to_fix ? ' → ' + err.how_to_fix : ''));\n  }\n  return r.body;\n};\nconst dormir = (ms) => new Promise((r) => setTimeout(r, ms));\nconst limpiar = (t) => String(t).replace(/[^A-Za-z0-9_\\-:.]/g, '-').slice(0, 24);\n// Espera a que TODOS los trabajos terminen. Devuelve {ok, trabajos, coste} o {ok:false, motivo}.\nconst esperar = async (ids) => {\n  const limite = Date.now() + Number(cfg.espera_maxima_min || 20) * 60000;\n  let coste = 0;\n  for (;;) {\n    const estados = [];\n    for (const id of ids) estados.push(await peticion('GET', '/jobs/' + id));\n    const mal = estados.find((j) => j.status === 'failed' || j.status === 'canceled');\n    if (mal) return { ok: false, motivo: 'Falló ' + mal.id + ': ' + ((mal.error && mal.error.message) || mal.status) };\n    if (estados.every((j) => j.status === 'succeeded')) {\n      coste = estados.reduce((s, j) => s + Number((j.cost && j.cost.final) || 0), 0);\n      return { ok: true, trabajos: estados, coste };\n    }\n    if (Date.now() > limite) return { ok: false, motivo: 'Tiempo de espera agotado' };\n    await dormir(Number(cfg.sondeo_s || 5) * 1000);\n  }\n};\n\n// 5) Prepara lo que se escribe en la hoja: enlace, coste real (según las tablas de la app) y estado.\nconst fila = $('Montaje').first().json;\nconst recibido = $('Esperar webhook').first().json;\nconst job = (recibido.body && recibido.body.job) || recibido.job || {};\nlet enlace = '';\ntry { enlace = $('Subir a Drive').first().json.webViewLink || ''; } catch (e) { enlace = ''; }\nconst ok = job.status === 'succeeded';\nconst coste = Math.round(((fila.coste_imagenes || 0) + (fila.coste_videos || 0)) * 10000) / 10000;\nreturn [{ json: { row_number: fila.row_number, estado: ok ? 'listo' : 'error', video_url: ok ? (enlace || `${base}/jobs/${job.id}/files/1`) : '',\n  coste_real: coste, coste_estimado: fila.coste_estimado, job_id: job.id || fila.montaje_id,\n  notas: ok ? '' : ((job.error && job.error.message) || 'El montaje falló') } }];\n",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "640f2560-fa75-5810-a9d9-6295aec8de4c",
+      "name": "Preparar resultado",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1860,
+        180
+      ],
+      "notes": "",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const f = $input.first().json;\nreturn [{ json: { row_number: f.row_number, estado: f.coste_estimado ? 'rechazada (coste)' : 'error', video_url: '',\n  coste_real: 0, coste_estimado: f.coste_estimado || '', job_id: '', notas: f.motivo || 'No se pudo procesar la fila' } }];\n",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "c1e2ddb0-7496-5b95-9ef8-1976bd36e9a1",
+      "name": "Preparar rechazo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        420
+      ],
+      "notes": "",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "jsCode": "const f = $input.first().json;\nreturn [{ json: { row_number: f.row_number, estado: 'error', video_url: '', coste_real: (f.coste_imagenes || 0) + (f.coste_videos || 0), coste_estimado: f.coste_estimado || '',\n  job_id: '', notas: f.motivo || 'Error en la generación' } }];\n",
+        "mode": "runOnceForAllItems"
+      },
+      "id": "5c368c67-f9ff-5834-8df4-c43ed93be976",
+      "name": "Preparar fallo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        760,
+        420
+      ],
+      "notes": "",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "PEGA_AQUI_EL_ID_DE_TU_HOJA",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Ideas",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json.row_number }}",
+            "estado": "={{ $json.estado }}",
+            "video_url": "={{ $json.video_url }}",
+            "coste_real": "={{ $json.coste_real }}",
+            "coste_estimado": "={{ $json.coste_estimado }}",
+            "job_id": "={{ $json.job_id }}",
+            "notas": "={{ $json.notas }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "b398fcea-b261-58e7-9d95-b14a9e08d22c",
+      "name": "Escribir en la hoja",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2080,
+        280
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "width": 760,
+        "height": 120,
+        "content": "## Vídeos virales en serie con FilmmakingUI\n1. Crea la hoja «Ideas» con las columnas: **tema, guion corto, formato, max_cost, estado, video_url, coste_real, coste_estimado, job_id, notas** (estado = «pendiente»).\n2. Pega tu token en «Configuración» y elige las credenciales de Google. 3. «Ejecutar a mano». Guía: «Conectar n8n» en la ayuda."
+      },
+      "id": "9a72425f-4308-5eca-a369-ff73c88bc834",
+      "name": "Nota",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1040,
+        40
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Cada 10 minutos": {
+      "main": [
+        [
+          {
+            "node": "Configuración",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ejecutar a mano": {
+      "main": [
+        [
+          {
+            "node": "Configuración",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuración": {
+      "main": [
+        [
+          {
+            "node": "Leer ideas pendientes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer ideas pendientes": {
+      "main": [
+        [
+          {
+            "node": "Una idea cada vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Una idea cada vez": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Preparar y estimar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar y estimar": {
+      "main": [
+        [
+          {
+            "node": "¿Cabe en max_cost?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Cabe en max_cost?": {
+      "main": [
+        [
+          {
+            "node": "Crear imágenes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar rechazo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crear imágenes": {
+      "main": [
+        [
+          {
+            "node": "¿Imágenes listas?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Imágenes listas?": {
+      "main": [
+        [
+          {
+            "node": "Animar a vídeo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar fallo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Animar a vídeo": {
+      "main": [
+        [
+          {
+            "node": "¿Vídeos listos?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Vídeos listos?": {
+      "main": [
+        [
+          {
+            "node": "Montaje",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar fallo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montaje": {
+      "main": [
+        [
+          {
+            "node": "Esperar webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Esperar webhook": {
+      "main": [
+        [
+          {
+            "node": "¿Montaje listo?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "¿Montaje listo?": {
+      "main": [
+        [
+          {
+            "node": "Descargar vídeo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Descargar vídeo": {
+      "main": [
+        [
+          {
+            "node": "Subir a Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Subir a Drive": {
+      "main": [
+        [
+          {
+            "node": "Preparar resultado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar resultado": {
+      "main": [
+        [
+          {
+            "node": "Escribir en la hoja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar rechazo": {
+      "main": [
+        [
+          {
+            "node": "Escribir en la hoja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar fallo": {
+      "main": [
+        [
+          {
+            "node": "Escribir en la hoja",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escribir en la hoja": {
+      "main": [
+        [
+          {
+            "node": "Una idea cada vez",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6090a611-727b-542f-a5fb-b0a3477ba39c",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": "filmmakingui-ejemplo"
+  },
+  "tags": []
+}
