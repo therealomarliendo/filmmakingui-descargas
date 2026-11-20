@@ -1,21 +1,21 @@
 {
- "version": "1.32.0",
- "fecha": "2026-11-16",
+ "version": "1.33.0",
+ "fecha": "2026-11-20",
  "espejo": true,
  "archivos": {
   "instalador": {
-   "nombre": "FilmmakingUI-1.32.0-windows-x64-setup.exe",
-   "tam": 132832689,
-   "sha256": "b426438c6759727310002bb2afdf701388b2f771f9c0329eff8bdce76d629e8a",
+   "nombre": "FilmmakingUI-1.33.0-windows-x64-setup.exe",
+   "tam": 133169189,
+   "sha256": "70abd382f0e55fbe236a93f9248aa4873540a0116a803c721def13cb754b7deb",
    "url": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/latest/download/FilmmakingUI-Setup.exe",
-   "url_version": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.32.0/FilmmakingUI-1.32.0-windows-x64-setup.exe"
+   "url_version": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.33.0/FilmmakingUI-1.33.0-windows-x64-setup.exe"
   },
   "portable": {
-   "nombre": "FilmmakingUI-1.32.0-windows-x64-portable.zip",
-   "tam": 90730806,
-   "sha256": "9c5143dd7ad4d1cda972b09863fad5d0b70ab1c871e127e14b941d53c564ad14",
+   "nombre": "FilmmakingUI-1.33.0-windows-x64-portable.zip",
+   "tam": 90883162,
+   "sha256": "b5584a88301a91857d66aa27fb24dfdd7b7877f05a3f786325325f15765fbee6",
    "url": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/latest/download/FilmmakingUI-Portable.zip",
-   "url_version": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.32.0/FilmmakingUI-1.32.0-windows-x64-portable.zip"
+   "url_version": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.33.0/FilmmakingUI-1.33.0-windows-x64-portable.zip"
   }
  }
 }

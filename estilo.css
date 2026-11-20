@@ -152,6 +152,16 @@ details[open] summary { margin-bottom: 8px; }
 .hecho-item figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 12px 10px; color: #fff; font-size: .85rem;
   line-height: 1.35; background: linear-gradient(transparent, rgba(0, 0, 0, .72)); }
 
+/* Muestras de /estudio: vertical y horizontal conviven; en móvil, a todo el ancho con un tope por formato */
+.muestras-rejilla { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: flex-start; margin: 18px 0 30px; }
+.muestra { margin: 0; position: relative; border-radius: 14px; overflow: hidden; background: var(--carbon); width: 100%; }
+.muestra.vertical { flex: 0 1 300px; max-width: 300px; }
+.muestra.horizontal { flex: 0 1 560px; max-width: 560px; }
+.muestra video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.muestra figcaption { position: absolute; left: 0; right: 0; top: 0; padding: 10px 12px 22px; color: #fff; font-size: .85rem; line-height: 1.3;
+  background: linear-gradient(rgba(0, 0, 0, .65), transparent); pointer-events: none; }
+@media (max-width: 640px) { .muestra.vertical, .muestra.horizontal { flex: 1 1 100%; } }
+
 /* Solicitar reembolso (1.28.23) */
 .reembolso { max-width: 720px; margin: 0 auto; padding: 56px 24px 88px; }
 .reembolso [hidden] { display: none !important; }   /* display: grid no puede anular el hidden de los pasos */
