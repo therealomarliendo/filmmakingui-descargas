@@ -19,11 +19,14 @@
       var endpoint = form.getAttribute("data-endpoint");
       if (!endpoint) { estado.textContent = form.getAttribute("data-error-red"); estado.className = "aviso-estado mal"; return; }
       enviar.disabled = true;
-      fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ correo: correo, consentimiento: true, idioma: form.getAttribute("data-idioma"), web: form.elements.web.value }),
-      }).then(function (r) {
+      // Respaldo fuera de Cloudflare (bloqueos de LaLiga): si el servicio principal no responde, se prueba cada servicio de respaldo.
+      var cuerpo = JSON.stringify({ correo: correo, consentimiento: true, idioma: form.getAttribute("data-idioma"), web: form.elements.web.value });
+      var respaldos = (form.getAttribute("data-respaldo") || "").split(" ").filter(Boolean).map(function (b) { return b.replace(/\/$/, "") + new URL(endpoint).pathname; });
+      var intentos = [endpoint].concat(respaldos);
+      (function probar(i) {
+        return fetch(intentos[i], { method: "POST", headers: { "Content-Type": "application/json" }, body: cuerpo })
+          .catch(function (e) { if (i + 1 < intentos.length) return probar(i + 1); throw e; });
+      })(0).then(function (r) {
         if (r.ok) {
           estado.textContent = form.getAttribute("data-ok");
           estado.className = "aviso-estado bien";

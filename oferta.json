@@ -1,0 +1,16 @@
+{
+ "ofertas": [
+  {
+   "version": "1.33.2",
+   "fecha": "2026-11-22",
+   "sha256": "ec9ec27b673daa404dc38183635a45950361fa39f467cc33f7bae3c2c1447680",
+   "tam": 54469014,
+   "firma": "vtubTSXqVyE3EOz3ZBm5bk1h2FHFL3z9_nRwtgph_Gqq8mtRcLByj9e4py-FwhPotMF6vh7WJgUOzpJ0LiCQAQ",
+   "novedades": {
+    "es": "Versión 1.33.2.",
+    "en": "Version 1.33.2."
+   },
+   "url": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.33.2/FilmmakingUI-1.33.2.zip"
+  }
+ ]
+}

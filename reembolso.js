@@ -45,7 +45,13 @@
     var endpoint = form.getAttribute("data-endpoint");
     enviar.disabled = true;
     enviar.textContent = texto("enviando");
-    fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(datos) })
+    // Respaldo fuera de Cloudflare (bloqueos de LaLiga): si el principal no responde, se prueba cada servicio de respaldo.
+    var respaldos = (form.getAttribute("data-respaldo") || "").split(" ").filter(Boolean).map(function (b) { return b.replace(/\/$/, "") + new URL(endpoint).pathname; });
+    var intentos = [endpoint].concat(respaldos);
+    (function probar(i) {
+      return fetch(intentos[i], { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(datos) })
+        .catch(function (e) { if (i + 1 < intentos.length) return probar(i + 1); throw e; });
+    })(0)
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
         if (!res.ok || !res.d || !res.d.id) throw new Error("rechazada");
