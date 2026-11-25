@@ -11,6 +11,18 @@
     "en": "Version 1.33.2."
    },
    "url": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.33.2/FilmmakingUI-1.33.2.zip"
+  },
+  {
+   "version": "1.33.5",
+   "fecha": "2026-11-25",
+   "sha256": "902bfe469646203eaa4e8b40f74312278e8e9eeca15ca3e65826f30311155b7a",
+   "tam": 54806432,
+   "firma": "LFoDsImpuINDkvwxbyCYXHC5fUREjZPJkNYit5PDTSVnT6dCxQqsntXiNMvjLKBBvlnarqHxzyfUR77cVXQaCA",
+   "novedades": {
+    "es": "**Cine**\r\n- Eliges la orientación (vertical u horizontal) al crear un proyecto.\r\n- Kling 4.0 disponible en Cine y primero en «Recomendados».\r\n- «Animar la escena» abre un panel con modelo, duración por plano, resolución, «Con audio» y el coste total antes de gastar nada.\r\n- «Enviar a Montaje» (proyecto o escena): si ya hay un montaje, puedes actualizarlo o crear uno nuevo. Montaje se abre en su propia vista con «Volver a Cine».\r\n- Quitados botones duplicados.\r\n\r\n**Proveedores y Asistente**\r\n- Proveedor automático con respaldo: si uno se queda sin saldo, la app usa otro.\r\n- Estado de los proveedores en la barra lateral y en Ajustes, con «Ya recargué».\r\n- El Asistente tiene un tope de gasto duro que incluye sus propias llamadas, una sola revisión visual por entrega y respaldo con Anthropic para la IA.\r\n- Pronunciación por palabra para que las voces lean bien nombres y palabras difíciles.\r\n\r\n**Voces y personajes**\r\n- Reparto de voces con voces nativas en español.\r\n- Clonar una voz (con permiso) o diseñarla con ElevenLabs desde el editor de personajes; «Voces de tu cuenta» salen primero.\r\n- Editor de personajes en ventana con pestañas y varias fotos de referencia por personaje.\r\n\r\n**Montaje**\r\n- La vista previa ya no se queda en negro, el cursor no pasa del final y se puede arrastrar desde la Galería a la pista.\r\n- Editar el texto de los subtítulos: se abre el panel de propiedades con el campo arriba; doble clic en la pista o en la vista previa.\r\n- El editor funciona sin internet.",
+    "en": "**Cine**\r\n- Pick the orientation (vertical or horizontal) when creating a project.\r\n- Kling 4.0 available in Cine, first in “Recommended”.\r\n- “Animate scene” opens a panel with model, duration per shot, resolution, “With audio” and the total cost before spending anything.\r\n- “Send to Montage” (project or scene): if a montage already exists you can update it or create a new one. Montage opens in its own view with “Back to Cine”.\r\n- Duplicate buttons removed.\r\n\r\n**Providers and Assistant**\r\n- Automatic provider with fallback: if one runs out of balance, the app uses another.\r\n- Provider status in the sidebar and in Settings, with “I recharged”.\r\n- The Assistant has a hard spending cap that includes its own calls, a single visual review per delivery and an Anthropic fallback for the AI.\r\n- Per-word pronunciation so voices read names and hard words correctly.\r\n\r\n**Voices and characters**\r\n- Voice cast with native Spanish voices.\r\n- Clone a voice (with permission) or design one with ElevenLabs from the character editor; “Your account voices” come first.\r\n- Character editor in a window with tabs and several reference photos per character.\r\n\r\n**Montage**\r\n- The preview no longer stays black, the playhead stays within the duration and you can drag from the Gallery onto the track.\r\n- Edit subtitle text: the properties panel opens with the field on top; double-click on the track or in the preview.\r\n- The editor works offline."
+   },
+   "url": "https://github.com/therealomarliendo/filmmakingui-descargas/releases/download/v1.33.5/FilmmakingUI-1.33.5.zip"
   }
  ]
 }
